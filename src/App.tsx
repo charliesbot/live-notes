@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
+import CodeEditor from "./CodeEditor";
+import ActionBar from "./ActionBar";
+import { css } from "../styled-system/css";
+import ResultsView from "./ResultsView";
+import { javascript } from "@codemirror/lang-javascript";
+import runJavascript from "./runners/javascriptRunner";
+
+const theme = tokyoNight;
+const language = [javascript()];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [code, setCode] = useState("");
+  const [results, setResults] = useState<(string | undefined)[]>([]);
+
+  const handleRun = () => {
+    // console.log("Run button clicked. Code:", code);
+    let a = runJavascript(code);
+    console.log("Results from runJavascript:", a);
+    setResults(a);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div
+      className={css({
+        display: "grid",
+        gridTemplateRows: "auto 1fr",
+        gridTemplateColumns: "1fr 1fr",
+        height: "100vh",
+        width: "100vw",
+      })}
+    >
+      <div
+        className={css({
+          gridColumn: "1 / -1",
+          padding: "4",
+          backgroundColor: "gray.100",
+        })}
+      >
+        <ActionBar onRun={handleRun} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div
+        className={css({
+          backgroundColor: "gray.50",
+        })}
+      >
+        <CodeEditor
+          code={code}
+          onChange={setCode}
+          theme={theme}
+          language={language}
+        />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <div
+        className={css({
+          backgroundColor: "white",
+        })}
+      >
+        <ResultsView theme={theme} language={language} runResults={results} />
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
