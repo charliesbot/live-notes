@@ -34,8 +34,6 @@ function App() {
       <div
         className={css({
           gridColumn: "1 / -1",
-          padding: "4",
-          backgroundColor: "gray.100",
         })}
       >
         <ActionBar onRun={handleRun} />

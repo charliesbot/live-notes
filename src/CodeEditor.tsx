@@ -16,7 +16,10 @@ const CodeEditor: FC<CodeEditorProps> = (props) => {
       <CodeMirror
         value={code}
         height="100%"
-        className={css({ height: "100%" })}
+        className={css({
+          height: "100%",
+          fontSize: "14px",
+        })}
         theme={theme}
         onChange={onChange}
         extensions={language}
