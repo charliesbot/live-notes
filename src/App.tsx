@@ -9,24 +9,21 @@ import MonacoEditor from "./components/MonacoEditor";
 import { EditorTheme } from "./types/CodeEditorTypes";
 import { tokyoNightTheme } from "./themes/tokyoNight";
 import { CodeEditor } from "./components/CodeEditor";
+import { useCtrlEnterShortcut } from "./hooks";
 // import { useLocalState } from "./context/LocalState";
 
 function App() {
   const [code, setCode] = useState<string | undefined>("");
   const [results, setResults] = useState<string | undefined>();
   const settingsDialogRef = useRef<HTMLDialogElement>(null);
+  const handleRunRef = useRef<() => void>(() => {});
   const theme: EditorTheme = "tokyo-night";
   const language = "typescript";
   const monaco = useMonaco();
+  useCtrlEnterShortcut(() => {
+    handleRunRef.current();
+  });
   // const { settings } = useLocalState();
-
-  useEffect(() => {
-    // TODO - convert this into a theme hook
-    if (monaco) {
-      monaco.editor.defineTheme("tokyo-night", tokyoNightTheme);
-      monaco.editor.setTheme("tokyo-night");
-    }
-  }, [monaco]);
 
   const handleRun = () => {
     const resultsText = runJavascript(code)
@@ -38,6 +35,18 @@ function App() {
   const openSettings = () => {
     settingsDialogRef.current?.showModal();
   };
+
+  useEffect(() => {
+    // TODO - convert this into a theme hook
+    if (monaco) {
+      monaco.editor.defineTheme("tokyo-night", tokyoNightTheme);
+      monaco.editor.setTheme("tokyo-night");
+    }
+  }, [monaco]);
+
+  useEffect(() => {
+    handleRunRef.current = handleRun;
+  }, [handleRun]);
 
   return (
     <>
