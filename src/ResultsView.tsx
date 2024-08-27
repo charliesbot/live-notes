@@ -5,11 +5,11 @@ import { css } from "../styled-system/css";
 type Props = {
   theme: Extension;
   runResults: (string | undefined)[];
-  language: Extension[];
+  extensions: Extension[];
 };
 
 const ResultsView: FC<Props> = (props) => {
-  const { theme, runResults, language } = props;
+  const { theme, runResults, extensions } = props;
   const resultsText = runResults
     .map((result) => (result !== undefined ? result : ""))
     .join("\n");
@@ -19,7 +19,7 @@ const ResultsView: FC<Props> = (props) => {
       value={resultsText}
       editable={false}
       theme={theme}
-      extensions={language}
+      extensions={extensions}
       height="100%"
       className={css({ height: "100%" })}
     />

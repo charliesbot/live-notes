@@ -34,10 +34,11 @@ const baseButtonStyles = css({
 
 type Props = {
   onRun: () => void;
+  onOpenSettings: () => void;
 };
 
 const ActionBar: FC<Props> = (props) => {
-  const { onRun } = props;
+  const { onRun, onOpenSettings } = props;
 
   return (
     <div
@@ -70,7 +71,7 @@ const ActionBar: FC<Props> = (props) => {
         <button onClick={onRun} className={gradientButtonStyles}>
           <HiMiniPlay size={20} />
         </button>
-        <button className={baseButtonStyles}>
+        <button onClick={onOpenSettings} className={baseButtonStyles}>
           <LuSettings size={20} />
         </button>
       </div>

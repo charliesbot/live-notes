@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
+    "@replit/codemirror-vim": "^6.2.1",
     "@uiw/codemirror-theme-tokyo-night": "^4.23.0",
     "@uiw/react-codemirror": "^4.23.0",
     "install": "^0.13.0",

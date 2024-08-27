@@ -6,11 +6,12 @@ interface CodeEditorProps {
   code: string;
   onChange: (value: string) => void;
   theme: Extension;
-  language: Extension[];
+  extensions: Extension[];
 }
 
 const CodeEditor: FC<CodeEditorProps> = (props) => {
-  const { code, onChange, theme, language } = props;
+  const { code, onChange, theme, extensions } = props;
+
   return (
     <div className={css({ height: "100%", overflow: "auto" })}>
       <CodeMirror
@@ -22,7 +23,7 @@ const CodeEditor: FC<CodeEditorProps> = (props) => {
         })}
         theme={theme}
         onChange={onChange}
-        extensions={language}
+        extensions={extensions}
       />
     </div>
   );

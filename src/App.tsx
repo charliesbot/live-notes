@@ -1,63 +1,87 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
+import { javascript } from "@codemirror/lang-javascript";
+import { vim } from "@replit/codemirror-vim";
 import CodeEditor from "./CodeEditor";
 import ActionBar from "./ActionBar";
 import { css } from "../styled-system/css";
 import ResultsView from "./ResultsView";
-import { javascript } from "@codemirror/lang-javascript";
 import runJavascript from "./runners/javascriptRunner";
+import { SettingsDialog } from "./SettingsDialog";
+import { LocalStateProvider, useLocalState } from "./context/LocalState";
+import { Extension } from "@uiw/react-codemirror";
 
 const theme = tokyoNight;
-const language = [javascript()];
+const language = javascript();
 
 function App() {
   const [code, setCode] = useState("");
   const [results, setResults] = useState<(string | undefined)[]>([]);
+  const settingsDialogRef = useRef<HTMLDialogElement>(null);
+  const { settings } = useLocalState();
+  const [extensions, setExtensions] = useState<Extension[]>([language]);
+
+  useEffect(() => {
+    const tempExtensions: Extension[] = [language];
+    if (settings.vimMode) {
+      tempExtensions.push(vim());
+    }
+    setExtensions([...tempExtensions]);
+  }, [settings]);
 
   const handleRun = () => {
-    // console.log("Run button clicked. Code:", code);
-    let a = runJavascript(code);
-    console.log("Results from runJavascript:", a);
-    setResults(a);
+    setResults(runJavascript(code));
+  };
+
+  const openSettings = () => {
+    settingsDialogRef.current?.showModal();
   };
 
   return (
-    <div
-      className={css({
-        display: "grid",
-        gridTemplateRows: "auto 1fr",
-        gridTemplateColumns: "1fr 1fr",
-        height: "100vh",
-        width: "100vw",
-      })}
-    >
+    <>
       <div
         className={css({
-          gridColumn: "1 / -1",
+          display: "grid",
+          gridTemplateRows: "auto 1fr",
+          gridTemplateColumns: "1fr 1fr",
+          height: "100vh",
+          width: "100vw",
+          position: "relative",
         })}
       >
-        <ActionBar onRun={handleRun} />
+        <div
+          className={css({
+            gridColumn: "1 / -1",
+          })}
+        >
+          <ActionBar onRun={handleRun} onOpenSettings={openSettings} />
+        </div>
+        <div
+          className={css({
+            backgroundColor: "gray.50",
+          })}
+        >
+          <CodeEditor
+            code={code}
+            onChange={setCode}
+            theme={theme}
+            extensions={extensions}
+          />
+        </div>
+        <div
+          className={css({
+            backgroundColor: "white",
+          })}
+        >
+          <ResultsView
+            theme={theme}
+            extensions={[language]}
+            runResults={results}
+          />
+        </div>
       </div>
-      <div
-        className={css({
-          backgroundColor: "gray.50",
-        })}
-      >
-        <CodeEditor
-          code={code}
-          onChange={setCode}
-          theme={theme}
-          language={language}
-        />
-      </div>
-      <div
-        className={css({
-          backgroundColor: "white",
-        })}
-      >
-        <ResultsView theme={theme} language={language} runResults={results} />
-      </div>
-    </div>
+      <SettingsDialog dialogRef={settingsDialogRef} />
+    </>
   );
 }
 
