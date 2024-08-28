@@ -8,7 +8,7 @@ import { css } from "../styled-system/css";
 import ResultsView from "./ResultsView";
 import runJavascript from "./runners/javascriptRunner";
 import { SettingsDialog } from "./SettingsDialog";
-import { LocalStateProvider, useLocalState } from "./context/LocalState";
+import { useLocalState } from "./context/LocalState";
 import { Extension } from "@uiw/react-codemirror";
 
 const theme = tokyoNight;
