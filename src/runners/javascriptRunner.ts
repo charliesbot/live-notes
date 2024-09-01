@@ -1,20 +1,30 @@
+import { transform } from "sucrase";
+
 type EvaluationResult = (string | undefined)[];
 
+function stripTypes(code: string): string {
+  const result = transform(code, {
+    transforms: ["typescript"],
+  });
+  return result.code;
+}
+
 function runJavascript(code: string): EvaluationResult {
-  const lines = code.split("\n");
+  const jsCode = stripTypes(code);
+  const lines = jsCode.split("\n");
   const results: EvaluationResult = new Array(lines.length).fill(undefined);
 
   // Wrap each console.log with a line number
   const wrappedCode = lines
     .map((line, index) =>
-      line.replace(/console\.log\((.*)\)/g, `customLog(${index}, $1)`),
+      line.replace(/console\.log\((.*)\)/g, `customLog(${index}, $1)`)
     )
     .join("\n");
 
   const customLog = (lineIndex: number, ...args: any[]) => {
     results[lineIndex] = args
       .map((arg) =>
-        typeof arg === "object" ? JSON.stringify(arg) : String(arg),
+        typeof arg === "object" ? JSON.stringify(arg) : String(arg)
       )
       .join(" ");
   };

@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { Extension } from "@uiw/react-codemirror";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 import { javascript } from "@codemirror/lang-javascript";
+import { linter, lintGutter } from "@codemirror/lint";
+import { autocompletion } from "@codemirror/autocomplete";
 import { vim } from "@replit/codemirror-vim";
 import CodeEditor from "./CodeEditor";
 import ActionBar from "./ActionBar";
@@ -9,17 +12,20 @@ import ResultsView from "./ResultsView";
 import runJavascript from "./runners/javascriptRunner";
 import { SettingsDialog } from "./SettingsDialog";
 import { useLocalState } from "./context/LocalState";
-import { Extension } from "@uiw/react-codemirror";
 
 const theme = tokyoNight;
-const language = javascript();
+const language = javascript({ typescript: true });
 
 function App() {
   const [code, setCode] = useState("");
   const [results, setResults] = useState<(string | undefined)[]>([]);
   const settingsDialogRef = useRef<HTMLDialogElement>(null);
   const { settings } = useLocalState();
-  const [extensions, setExtensions] = useState<Extension[]>([language]);
+  const [extensions, setExtensions] = useState<Extension[]>([
+    language,
+    lintGutter(),
+    autocompletion(),
+  ]);
 
   useEffect(() => {
     const tempExtensions: Extension[] = [language];
