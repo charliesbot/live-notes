@@ -28,7 +28,6 @@ function App() {
   }, [monaco]);
 
   const handleRun = () => {
-    console.log(code);
     const resultsText = runJavascript(code)
       .map((result) => (result !== undefined ? result : ""))
       .join("\n");
