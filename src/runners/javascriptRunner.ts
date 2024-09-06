@@ -9,7 +9,11 @@ function stripTypes(code: string): string {
   return result.code;
 }
 
-function runJavascript(code: string): EvaluationResult {
+function runJavascript(code: string | undefined): EvaluationResult {
+  if (!code) {
+    return [];
+  }
+
   const jsCode = stripTypes(code);
   const lines = jsCode.split("\n");
   const results: EvaluationResult = new Array(lines.length).fill(undefined);

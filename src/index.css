@@ -15,7 +15,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Padding for the code editor */
-.cm-scroller {
-  padding: 20px;
+html {
+  height: 100vh;
 }

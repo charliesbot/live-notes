@@ -1,42 +1,38 @@
 import { useEffect, useRef, useState } from "react";
-import { Extension } from "@uiw/react-codemirror";
-import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
-import { javascript } from "@codemirror/lang-javascript";
-import { linter, lintGutter } from "@codemirror/lint";
-import { autocompletion } from "@codemirror/autocomplete";
-import { vim } from "@replit/codemirror-vim";
-import CodeEditor from "./CodeEditor";
+import { useMonaco } from "@monaco-editor/react";
 import ActionBar from "./ActionBar";
 import { css } from "../styled-system/css";
-import ResultsView from "./ResultsView";
 import runJavascript from "./runners/javascriptRunner";
 import { SettingsDialog } from "./SettingsDialog";
-import { useLocalState } from "./context/LocalState";
-
-const theme = tokyoNight;
-const language = javascript({ typescript: true });
+import { resultsViewEditorConfig } from "./configs/resultsViewEditorConfig";
+import MonacoEditor from "./components/MonacoEditor";
+import { EditorTheme } from "./types/CodeEditorTypes";
+import { tokyoNightTheme } from "./themes/tokyoNight";
+// import { useLocalState } from "./context/LocalState";
 
 function App() {
-  const [code, setCode] = useState("");
-  const [results, setResults] = useState<(string | undefined)[]>([]);
+  const [code, setCode] = useState<string | undefined>("");
+  const [results, setResults] = useState<string | undefined>();
   const settingsDialogRef = useRef<HTMLDialogElement>(null);
-  const { settings } = useLocalState();
-  const [extensions, setExtensions] = useState<Extension[]>([
-    language,
-    lintGutter(),
-    autocompletion(),
-  ]);
+  const theme: EditorTheme = "tokyo-night";
+  const language = "typescript";
+  const monaco = useMonaco();
+  // const { settings } = useLocalState();
 
   useEffect(() => {
-    const tempExtensions: Extension[] = [language];
-    if (settings.vimMode) {
-      tempExtensions.push(vim());
+    // TODO - convert this into a theme hook
+    if (monaco) {
+      monaco.editor.defineTheme("tokyo-night", tokyoNightTheme);
+      monaco.editor.setTheme("tokyo-night");
     }
-    setExtensions([...tempExtensions]);
-  }, [settings]);
+  }, [monaco]);
 
   const handleRun = () => {
-    setResults(runJavascript(code));
+    console.log(code);
+    const resultsText = runJavascript(code)
+      .map((result) => (result !== undefined ? result : ""))
+      .join("\n");
+    setResults(resultsText);
   };
 
   const openSettings = () => {
@@ -64,25 +60,30 @@ function App() {
         </div>
         <div
           className={css({
-            backgroundColor: "gray.50",
+            gridColumn: "0",
+            gridRow: "2",
+            overflow: "hidden",
           })}
         >
-          <CodeEditor
+          <MonacoEditor
             code={code}
             onChange={setCode}
             theme={theme}
-            extensions={extensions}
+            language={language}
           />
         </div>
         <div
           className={css({
-            backgroundColor: "white",
+            gridColumn: "1",
+            gridRow: "2",
+            overflow: "hidden",
           })}
         >
-          <ResultsView
+          <MonacoEditor
+            code={results}
             theme={theme}
-            extensions={[language]}
-            runResults={results}
+            language={language}
+            options={resultsViewEditorConfig}
           />
         </div>
       </div>
