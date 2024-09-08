@@ -1,8 +1,11 @@
 import { FC, RefObject } from "react";
-import { css } from "../styled-system/css";
 import { Checkbox } from "./components/Checkbox";
 import { Spacer } from "./components/Spacer";
 import { useLocalState } from "./context/LocalState";
+import { Dropdown } from "./components/Dropdown";
+import { css } from "../styled-system/css";
+import { fontOptions } from "./configs/fontOptions";
+import { themeOptions } from "./configs/themeOptions";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement>;
@@ -33,8 +36,13 @@ const SettingsDialog: FC<Props> = (props) => {
         },
       })}
     >
-      <h1>
-        <strong>Settings</strong>
+      <h1
+        className={css({
+          fontWeight: "bold",
+          fontSize: 30,
+        })}
+      >
+        Settings
       </h1>
       <Spacer size={24} />
       <Checkbox
@@ -42,6 +50,18 @@ const SettingsDialog: FC<Props> = (props) => {
         label="Enable Vim Mode"
         isChecked={settings.vimMode}
         onClick={(value: boolean) => updateSetting("vimMode", value)}
+      />
+      <Spacer size={24} />
+      <Dropdown
+        options={themeOptions}
+        onChange={() => {}}
+        value={settings.theme}
+      />
+      <Spacer size={24} />
+      <Dropdown
+        options={fontOptions}
+        onChange={() => {}}
+        value={settings.theme}
       />
     </dialog>
   );

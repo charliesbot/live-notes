@@ -6,9 +6,11 @@ import {
   useEffect,
   useState,
 } from "react";
+import { EditorTheme } from "../types/CodeEditorTypes";
 
 type Settings = {
   vimMode: boolean;
+  theme: EditorTheme;
 };
 
 const defaultSettings: Settings = {
@@ -27,7 +29,7 @@ type Props = {
 const LOCAL_STORAGE_SETTINGS_KEY = "playgroundSettings";
 
 const LocalStateContext = createContext<LocalStateContextType | undefined>(
-  undefined,
+  undefined
 );
 
 export const LocalStateProvider: FC<Props> = ({ children }) => {
@@ -42,7 +44,7 @@ export const LocalStateProvider: FC<Props> = ({ children }) => {
 
   const updateSetting = <K extends keyof Settings>(
     key: K,
-    value: Settings[K],
+    value: Settings[K]
   ) => {
     setSettings((prevSettings: Settings) => ({
       ...prevSettings,

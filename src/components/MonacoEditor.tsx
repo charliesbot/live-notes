@@ -1,12 +1,14 @@
-import { FC, useCallback } from "react";
-import { Editor, OnChange, EditorProps } from "@monaco-editor/react";
+import { FC } from "react";
+import { Editor, OnChange, EditorProps, OnMount } from "@monaco-editor/react";
 import { EditorLanguage, EditorTheme } from "../types/CodeEditorTypes";
 
 type Options = EditorProps["options"];
 
 interface MonacoEditorProps {
   code?: string;
-  onChange?: (value: string | undefined) => void;
+  onChange?: OnChange;
+  onMount?: OnMount;
+  height?: string | number;
   language: EditorLanguage;
   theme: EditorTheme;
   options?: Options;
@@ -28,22 +30,24 @@ const baseOptions: Options = {
 };
 
 const MonacoEditor: FC<MonacoEditorProps> = (props) => {
-  const { code, onChange, language, theme, options = {} } = props;
-
-  const handleEditorChange: OnChange = useCallback(
-    (value) => {
-      onChange?.(value);
-    },
-    [onChange]
-  );
+  const {
+    code,
+    onChange,
+    language,
+    theme,
+    options = {},
+    onMount,
+    height,
+  } = props;
 
   return (
     <Editor
+      onMount={onMount}
       value={code}
-      height="100%"
+      height={height ?? "100%"}
       width="100%"
       language={language}
-      onChange={handleEditorChange}
+      onChange={onChange}
       theme={theme}
       options={{ ...baseOptions, ...options }}
     />

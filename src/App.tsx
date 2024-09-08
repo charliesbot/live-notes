@@ -8,6 +8,7 @@ import { resultsViewEditorConfig } from "./configs/resultsViewEditorConfig";
 import MonacoEditor from "./components/MonacoEditor";
 import { EditorTheme } from "./types/CodeEditorTypes";
 import { tokyoNightTheme } from "./themes/tokyoNight";
+import { CodeEditor } from "./components/CodeEditor";
 // import { useLocalState } from "./context/LocalState";
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
             overflow: "hidden",
           })}
         >
-          <MonacoEditor
+          <CodeEditor
             code={code}
             onChange={setCode}
             theme={theme}
