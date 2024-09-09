@@ -4,8 +4,12 @@ import { Spacer } from "./components/Spacer";
 import { useLocalState } from "./context/LocalState";
 import { Dropdown } from "./components/Dropdown";
 import { css } from "../styled-system/css";
-import { fontOptions } from "./configs/fontOptions";
+import { EditorFont, fontOptions } from "./configs/fontOptions";
 import { themeOptions } from "./configs/themeOptions";
+import { Label } from "./components/Label";
+import { Column } from "./components/Column";
+import { IoCloseOutline } from "react-icons/io5";
+import { EditorTheme } from "./types/CodeEditorTypes";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement>;
@@ -36,15 +40,28 @@ const SettingsDialog: FC<Props> = (props) => {
         },
       })}
     >
-      <h1
+      <div
         className={css({
-          fontWeight: "bold",
-          fontSize: 30,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         })}
       >
-        Settings
-      </h1>
-      <Spacer size={24} />
+        <h1
+          className={css({
+            fontWeight: "bold",
+            fontSize: 30,
+          })}
+        >
+          Settings
+        </h1>
+        <IoCloseOutline
+          size={24}
+          className={css({ cursor: "pointer" })}
+          onClick={() => dialogRef.current?.close()}
+        />
+      </div>
+      <Spacer size={32} />
       <Checkbox
         id="vimMode"
         label="Enable Vim Mode"
@@ -52,17 +69,31 @@ const SettingsDialog: FC<Props> = (props) => {
         onClick={(value: boolean) => updateSetting("vimMode", value)}
       />
       <Spacer size={24} />
-      <Dropdown
-        options={themeOptions}
-        onChange={() => {}}
-        value={settings.theme}
-      />
+      <Column>
+        <Label htmlFor="theme">Theme</Label>
+        <Spacer size={10} />
+        <Dropdown
+          id="theme"
+          options={themeOptions}
+          onChange={(event) => {
+            updateSetting("theme", event.target.value as EditorTheme);
+          }}
+          value={settings.theme}
+        />
+      </Column>
       <Spacer size={24} />
-      <Dropdown
-        options={fontOptions}
-        onChange={() => {}}
-        value={settings.theme}
-      />
+      <Column>
+        <Label htmlFor="font">Font</Label>
+        <Spacer size={10} />
+        <Dropdown
+          id="font"
+          options={fontOptions}
+          onChange={(event) => {
+            updateSetting("font", event.target.value as EditorFont);
+          }}
+          value={settings.font}
+        />
+      </Column>
     </dialog>
   );
 };

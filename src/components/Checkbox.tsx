@@ -19,6 +19,7 @@ const Checkbox: FC<Props> = (props) => {
         alignItems: "center",
         gap: "18px",
         cursor: "pointer",
+        fontSize: 14,
       })}
     >
       <input
@@ -45,7 +46,6 @@ const Checkbox: FC<Props> = (props) => {
             content: '""',
             width: "10px",
             height: "10px",
-            fontSize: "16px",
             clipPath:
               "polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%)",
             transform: "scale(0)",

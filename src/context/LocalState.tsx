@@ -7,14 +7,18 @@ import {
   useState,
 } from "react";
 import { EditorTheme } from "../types/CodeEditorTypes";
+import { EditorFont } from "../configs/fontOptions";
 
 type Settings = {
   vimMode: boolean;
   theme: EditorTheme;
+  font: EditorFont;
 };
 
 const defaultSettings: Settings = {
   vimMode: false,
+  theme: "tokyo-night",
+  font: "jetbrains-mono",
 };
 
 type LocalStateContextType = {

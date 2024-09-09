@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Editor, OnChange, EditorProps, OnMount } from "@monaco-editor/react";
 import { EditorLanguage, EditorTheme } from "../types/CodeEditorTypes";
+import { useFontLoader } from "../hooks/useFontLoader";
 
 type Options = EditorProps["options"];
 
@@ -40,6 +41,8 @@ const MonacoEditor: FC<MonacoEditorProps> = (props) => {
     height,
   } = props;
 
+  const fontFamily = useFontLoader();
+
   return (
     <Editor
       onMount={onMount}
@@ -49,7 +52,7 @@ const MonacoEditor: FC<MonacoEditorProps> = (props) => {
       language={language}
       onChange={onChange}
       theme={theme}
-      options={{ ...baseOptions, ...options }}
+      options={{ ...baseOptions, ...options, fontFamily: fontFamily }}
     />
   );
 };
