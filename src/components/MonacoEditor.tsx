@@ -20,7 +20,6 @@ const baseOptions: Options = {
   scrollBeyondLastLine: false,
   minimap: { enabled: false },
   lineNumbers: "off",
-  fontSize: 14,
   scrollbar: {
     vertical: "hidden",
   },
@@ -53,7 +52,12 @@ const MonacoEditor: FC<MonacoEditorProps> = (props) => {
       language={language}
       onChange={onChange}
       theme={theme}
-      options={{ ...baseOptions, ...options, fontFamily: fontFamily }}
+      options={{
+        ...baseOptions,
+        ...options,
+        fontFamily: fontFamily,
+        fontSize: 16,
+      }}
     />
   );
 };

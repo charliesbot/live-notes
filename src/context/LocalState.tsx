@@ -39,7 +39,10 @@ const LocalStateContext = createContext<LocalStateContextType | undefined>(
 export const LocalStateProvider: FC<Props> = ({ children }) => {
   const [settings, setSettings] = useState(() => {
     const storedSettings = localStorage.getItem(LOCAL_STORAGE_SETTINGS_KEY);
-    return storedSettings ? JSON.parse(storedSettings) : defaultSettings;
+    if (storedSettings) {
+      return { ...defaultSettings, ...JSON.parse(storedSettings) };
+    }
+    return defaultSettings;
   });
 
   useEffect(() => {
