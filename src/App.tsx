@@ -6,11 +6,10 @@ import runJavascript from "./runners/javascriptRunner";
 import { SettingsDialog } from "./SettingsDialog";
 import { resultsViewEditorConfig } from "./configs/resultsViewEditorConfig";
 import MonacoEditor from "./components/MonacoEditor";
-import { EditorTheme } from "./types/CodeEditorTypes";
 import { tokyoNightTheme } from "./themes/tokyoNight";
 import { CodeEditor } from "./components/CodeEditor";
 import { useCtrlEnterShortcut } from "./hooks";
-// import { useLocalState } from "./context/LocalState";
+import { EditorTheme } from "./configs/themeOptions";
 
 function App() {
   const [code, setCode] = useState<string | undefined>("");

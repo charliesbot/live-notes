@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { Editor, OnChange, EditorProps, OnMount } from "@monaco-editor/react";
-import { EditorLanguage, EditorTheme } from "../types/CodeEditorTypes";
+import { EditorLanguage } from "../types/CodeEditorTypes";
 import { useFontLoader } from "../hooks/useFontLoader";
+import { EditorTheme } from "../configs/themeOptions";
 
 type Options = EditorProps["options"];
 

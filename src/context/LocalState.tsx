@@ -6,8 +6,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { EditorTheme } from "../types/CodeEditorTypes";
 import { EditorFont } from "../configs/fontOptions";
+import { EditorTheme } from "../configs/themeOptions";
 
 type Settings = {
   vimMode: boolean;

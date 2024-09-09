@@ -5,11 +5,10 @@ import { useLocalState } from "./context/LocalState";
 import { Dropdown } from "./components/Dropdown";
 import { css } from "../styled-system/css";
 import { EditorFont, fontOptions } from "./configs/fontOptions";
-import { themeOptions } from "./configs/themeOptions";
+import { EditorTheme, themeOptions } from "./configs/themeOptions";
 import { Label } from "./components/Label";
 import { Column } from "./components/Column";
 import { IoCloseOutline } from "react-icons/io5";
-import { EditorTheme } from "./types/CodeEditorTypes";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement>;

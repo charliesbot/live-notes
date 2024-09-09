@@ -1,6 +1,15 @@
-import { DropdownOption } from "../components/Dropdown";
-import { EditorTheme } from "../types/CodeEditorTypes";
+import { tokyoNightTheme } from "../themes/tokyoNight";
 
-export const themeOptions: DropdownOption<EditorTheme>[] = [
-  { label: "Tokyo Night", value: "tokyo-night", key: "tokyo-night" },
-];
+export const themes = {
+  "tokyo-night": {
+    name: "Tokyo Night",
+    config: tokyoNightTheme,
+  },
+} as const;
+
+export const themeOptions = Object.entries(themes).map(([key, theme]) => ({
+  value: key,
+  label: theme.name,
+}));
+
+export type EditorTheme = keyof typeof themes;

@@ -1,14 +1,11 @@
 import { FC, useCallback, useRef, useState } from "react";
 import { OnChange, EditorProps, OnMount } from "@monaco-editor/react";
-import {
-  EditorType,
-  EditorLanguage,
-  EditorTheme,
-} from "../types/CodeEditorTypes";
+import { EditorType, EditorLanguage } from "../types/CodeEditorTypes";
 import { useVim } from "../hooks/useVim";
 import { useLocalState } from "../context/LocalState";
 import { css } from "../../styled-system/css";
 import MonacoEditor from "./MonacoEditor";
+import { EditorTheme } from "../configs/themeOptions";
 
 type Options = EditorProps["options"];
 

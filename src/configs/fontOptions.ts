@@ -24,7 +24,6 @@ export const fonts = {
 export const fontOptions = Object.entries(fonts).map(([key, font]) => ({
   value: key,
   label: font.fontFamily,
-  url: font.url,
 }));
 
 export type EditorFont = keyof typeof fonts;
